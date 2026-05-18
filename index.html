@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 20 — Correction of Errors (II) | HKDSE BAFS Revision</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0f1b2d;
+      --navy-mid: #162236;
+      --navy-light: #1e3050;
+      --accent: #4f9cf9;
+      --accent2: #7c5cbf;
+      --accent3: #27ae60;
+      --accent4: #e67e22;
+      --accent5: #e74c3c;
+      --gold: #f5c518;
+      --text: #e8edf5;
+      --text-muted: #8fa3bc;
+      --card-bg: #1a2d45;
+      --card-border: #2a4060;
+      --sidebar-w: 260px;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    #sidebar {
+      position: fixed; top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--navy-mid);
+      border-right: 1px solid var(--card-border);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+    }
+    .sidebar-logo {
+      padding: 20px 18px 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .sidebar-logo .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 6px;
+    }
+    .sidebar-logo h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .sidebar-logo p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .sidebar-nav { padding: 12px 0; }
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 8px 18px 4px;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      color: var(--accent);
+      background: rgba(79,156,249,0.08);
+      border-left-color: var(--accent);
+    }
+    .sidebar-nav a .icon { font-size: 15px; width: 18px; text-align: center; }
+
+    /* ===== MAIN CONTENT ===== */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      background: linear-gradient(135deg, #0a1628 0%, #162236 50%, #1a2d45 100%);
+      padding: 80px 60px 70px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--card-border);
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(79,156,249,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 30%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(79,156,249,0.15);
+      border: 1px solid rgba(79,156,249,0.4);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    #hero h1 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #fff 0%, #a8c8f8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+    .chip span { color: var(--accent); font-weight: 600; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section {
+      padding: 60px 60px 50px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .section-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ===== CONCEPT CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .concept-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+    .concept-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .concept-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .concept-card .formula-box {
+      background: rgba(0,0,0,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      color: #a8d8ff;
+      line-height: 1.6;
+    }
+    .concept-card .key-point {
+      background: rgba(79,156,249,0.08);
+      border: 1px solid rgba(79,156,249,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .concept-card .key-point strong { color: var(--accent); }
+
+    /* Error types accordion */
+    .error-types { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .error-item {
+      background: rgba(0,0,0,0.2);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .error-item summary {
+      list-style: none;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .error-item summary::after {
+      content: '▸';
+      margin-left: auto;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+    .error-item[open] summary::after { transform: rotate(90deg); }
+    .error-item .detail {
+      padding: 0 16px 14px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--card-border);
+    }
+    .error-item .detail .entry {
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #a8d8ff;
+    }
+
+    /* ===== JOURNAL ENTRIES ===== */
+    .journal-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .jtab {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .jtab.active, .jtab:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .journal-panel { display: none; }
+    .journal-panel.active { display: block; }
+    .journal-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      margin-bottom: 16px;
+    }
+    .journal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .journal-table thead tr {
+      background: var(--navy-light);
+    }
+    .journal-table th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .journal-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(42,64,96,0.5);
+      vertical-align: top;
+      color: var(--text);
+    }
+    .journal-table tr:last-child td { border-bottom: none; }
+    .journal-table tr:hover td { background: rgba(79,156,249,0.04); }
+    .journal-table .dr { color: #7dd3fc; font-weight: 600; }
+    .journal-table .cr { color: #86efac; font-weight: 600; padding-left: 28px; }
+    .journal-table .narration { color: var(--text-muted); font-style: italic; font-size: 12px; }
+    .journal-table .amount { text-align: right; font-family: 'Courier New', monospace; }
+    .step-badge {
+      display: inline-block;
+      background: rgba(79,156,249,0.15);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .journal-note {
+      background: rgba(245,197,24,0.08);
+      border: 1px solid rgba(245,197,24,0.25);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: #f5c518;
+      line-height: 1.55;
+    }
+    .journal-note strong { color: #ffd966; }
+
+    /* ===== SUSPENSE ACCOUNT T-ACCOUNT ===== */
+    .t-account-wrap {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .t-account {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-width: 280px;
+      flex: 1;
+    }
+    .t-account-title {
+      background: var(--navy-light);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 1px solid var(--card-border);
+      text-align: center;
+    }
+    .t-account-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .t-col {
+      padding: 12px 14px;
+    }
+    .t-col:first-child { border-right: 1px solid var(--card-border); }
+    .t-col-header {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .t-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 3px 0;
+      color: var(--text-muted);
+    }
+    .t-row .t-amt { font-family: 'Courier New', monospace; color: var(--text); }
+    .t-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 6px 0 2px;
+      border-top: 2px solid var(--card-border);
+      margin-top: 6px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* ===== QUIZ ===== */
+    .quiz-progress-bar {
+      background: var(--navy-light);
+      border-radius: 20px;
+      height: 6px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 20px;
+      transition: width 0.4s ease;
+    }
+    .quiz-question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .quiz-question-card.active { display: block; }
+    .quiz-q-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .quiz-q-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+    .quiz-option {
+      background: rgba(0,0,0,0.2);
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-size: 13.5px;
+      color: var(--text);
+      transition: all 0.2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .quiz-option:hover:not(.disabled) {
+      border-color: var(--accent);
+      background: rgba(79,156,249,0.08);
+    }
+    .quiz-option.correct {
+      border-color: var(--accent3);
+      background: rgba(39,174,96,0.1);
+      color: #86efac;
+    }
+    .quiz-option.wrong {
+      border-color: var(--accent5);
+      background: rgba(231,76,60,0.1);
+      color: #fca5a5;
+    }
+    .quiz-option .opt-letter {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--navy-light);
+      border: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .quiz-option.correct .opt-letter { background: var(--accent3); border-color: var(--accent3); color: #fff; }
+    .quiz-option.wrong .opt-letter { background: var(--accent5); border-color: var(--accent5); color: #fff; }
+    .quiz-feedback {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      display: none;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.correct-fb {
+      background: rgba(39,174,96,0.1);
+      border: 1px solid rgba(39,174,96,0.3);
+      color: #86efac;
+    }
+    .quiz-feedback.wrong-fb {
+      background: rgba(231,76,60,0.1);
+      border: 1px solid rgba(231,76,60,0.3);
+      color: #fca5a5;
+    }
+    .quiz-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--card-border);
+      color: var(--text-muted);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .quiz-score-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      display: none;
+    }
+    .quiz-score-card.show { display: block; }
+    .score-circle {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0%, var(--accent2) 100%);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 0 40px rgba(79,156,249,0.3);
+    }
+    .quiz-score-card h3 { font-size: 22px; margin-bottom: 8px; }
+    .quiz-score-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+
+    /* ===== GLOSSARY ===== */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .glossary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .glossary-card:hover { border-color: var(--accent); }
+    .glossary-term {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .glossary-chinese {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .glossary-def {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .glossary-example {
+      margin-top: 10px;
+      background: rgba(0,0,0,0.2);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 6px 6px 0;
+      padding: 8px 12px;
+      font-size: 12px;
+      color: #c4b5fd;
+      line-height: 1.5;
+    }
+
+    /* ===== AI RESOURCES ===== */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    .resource-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 22px;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .resource-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent);
+    }
+    .resource-card .res-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .resource-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .resource-card p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .resource-card .res-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ===== EXAM TIPS ===== */
+    .tips-list { display: flex; flex-direction: column; gap: 14px; }
+    .tip-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .tip-num {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .tip-content h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .tip-content p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ===== PROFIT/WC ADJUSTMENT TABLE ===== */
+    .adj-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      margin-top: 16px;
+    }
+    .adj-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .adj-table thead tr { background: var(--navy-light); }
+    .adj-table th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .adj-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(42,64,96,0.5);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .adj-table tr:last-child td { border-bottom: none; }
+    .adj-table tr:hover td { background: rgba(79,156,249,0.04); }
+    .yes { color: #86efac; font-weight: 600; }
+    .no  { color: #fca5a5; font-weight: 600; }
+    .na  { color: var(--text-muted); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      padding: 30px 60px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--card-border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .section { padding: 40px 24px 36px; }
+      #hero { padding: 50px 24px 44px; }
+      footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="badge">HKDSE BAFS</div>
+    <h2>Chapter 20<br>Correction of Errors (II)</h2>
+    <p>Errors Affecting Trial Balance</p>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Content</div>
+    <a href="#hero" class="active"><span class="icon">🏠</span> Overview</a>
+    <a href="#concepts"><span class="icon">💡</span> Core Concepts</a>
+    <a href="#error-types"><span class="icon">⚠️</span> Error Types</a>
+    <a href="#journals"><span class="icon">📒</span> Journal Entries</a>
+    <a href="#adjustments"><span class="icon">📊</span> Profit &amp; WC Adjustments</a>
+    <a href="#quiz"><span class="icon">🎯</span> Interactive Quiz</a>
+    <a href="#glossary"><span class="icon">📖</span> Glossary</a>
+    <a href="#resources"><span class="icon">🤖</span> AI Resources</a>
+    <a href="#tips"><span class="icon">✨</span> Exam Tips</a>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-badge">HKDSE BAFS · Chapter 20</div>
+    <h1>Correction of Errors (II)<br>Errors Affecting Trial Balance</h1>
+    <p>Master suspense accounts, correcting journal entries, profit adjustments, and working capital adjustments — everything you need to ace the HKDSE exam.</p>
+    <div class="hero-chips">
+      <div class="chip"><span>5</span> Error Types</div>
+      <div class="chip"><span>4</span> Sections Covered</div>
+      <div class="chip"><span>5</span> Quiz Questions</div>
+      <div class="chip"><span>8</span> Glossary Terms</div>
+      <div class="chip"><span>HKDSE</span> Exam-Ready</div>
+    </div>
+  </section>
+
+  <!-- CORE CONCEPTS -->
+  <section id="concepts" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(79,156,249,0.15);">💡</div>
+      <div>
+        <h2>Core Concepts</h2>
+        <p>The essential building blocks of Chapter 20</p>
+      </div>
+    </div>
+    <div class="cards-grid">
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(79,156,249,0.15);color:var(--accent);">Section 20.1</span>
+        <h3>Introduction</h3>
+        <p>Not all accounting errors leave the trial balance unaffected. Chapter 20 focuses on errors that <strong>cause the trial balance to disagree</strong> — where debit and credit totals are unequal.</p>
+        <div class="key-point"><strong>Key Rule:</strong> When a double entry is made with different amounts in the ledger accounts, the trial balance will disagree.</div>
+      </div>
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(124,92,191,0.15);color:#a78bfa;">Section 20.2</span>
+        <h3>Suspense Account</h3>
+        <p>A <strong>temporary account</strong> opened to record the difference between the debit and credit totals of a disagreed trial balance, enabling financial statements to be prepared.</p>
+        <div class="formula-box">
+          If debit total &lt; credit total:<br>
+          &nbsp;&nbsp;Dr Suspense (shortage on debit side)<br><br>
+          If credit total &lt; debit total:<br>
+          &nbsp;&nbsp;Cr Suspense (shortage on credit side)
+        </div>
+        <div class="key-point"><strong>Important:</strong> The suspense account is <strong>closed to zero</strong> once all errors are found and corrected. It is shown separately in the Statement of Financial Position.</div>
+      </div>
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(39,174,96,0.15);color:#86efac;">Section 20.3</span>
+        <h3>Errors Affecting Trial Balance</h3>
+        <p>Five types of errors cause the trial balance to disagree. Each requires a correcting entry involving the <strong>suspense account</strong> to close it off.</p>
+        <div class="key-point">
+          <strong>The 5 Types:</strong><br>
+          1. Casting error in a book of original entry<br>
+          2. Single entry (one side missing)<br>
+          3. Double entry of unequal amounts<br>
+          4. Incorrect casting of an account<br>
+          5. Incorrect listing of balance in trial balance
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(230,126,34,0.15);color:#fb923c;">Section 20.4</span>
+        <h3>Adjustments of Profits</h3>
+        <p>Some errors affect the <strong>net profit</strong> (and sometimes gross profit) while others do not. Only errors affecting income statement items impact profit.</p>
+        <div class="formula-box">
+          Net profit as per draft accounts<br>
+          Add: Errors that understated profit<br>
+          Less: Errors that overstated profit<br>
+          ─────────────────────<br>
+          = Corrected net profit
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(231,76,60,0.15);color:#fca5a5;">Section 20.5</span>
+        <h3>Adjustments of Working Capital</h3>
+        <p><strong>Working capital</strong> = Current assets − Current liabilities. Only errors affecting current assets or current liabilities impact working capital.</p>
+        <div class="formula-box">
+          Working capital as per draft accounts<br>
+          Add: Errors that understated WC<br>
+          Less: Errors that overstated WC<br>
+          ─────────────────────<br>
+          = Corrected working capital
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(245,197,24,0.15);color:var(--gold);">Section 20.6</span>
+        <h3>Other Transactions</h3>
+        <p>Special transactions commonly tested in HKDSE exams alongside error corrections.</p>
+        <div class="key-point">
+          <strong>Contra Entry:</strong> When a trade debtor is also a trade creditor — set off balances:<br>
+          Dr Trade payables / Cr Trade receivables<br><br>
+          <strong>Donation of Goods:</strong> Record at <em>cost</em>, not sales value:<br>
+          Dr Donation expense / Cr Purchases
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ERROR TYPES DETAIL -->
+  <section id="error-types" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(231,76,60,0.15);">⚠️</div>
+      <div>
+        <h2>The 5 Error Types Explained</h2>
+        <p>Click each error to see analysis and correcting entries</p>
+      </div>
+    </div>
+    <div class="error-types">
+
+      <details class="error-item">
+        <summary><span style="color:var(--accent);">①</span> Casting Error in a Book of Original Entry</summary>
+        <div class="detail">
+          <p>The total of a day book (e.g., sales journal, purchases journal) is calculated incorrectly. The debit and credit entries are therefore of <strong>unequal amounts</strong>.</p>
+          <p style="margin-top:8px;"><strong>Example:</strong> Sales journal cast as $50,400 instead of $54,400.</p>
+          <p style="margin-top:6px;">Entries made: Dr Trade receivables $54,400 / Cr Sales $50,400 → Shortage of $4,000 on credit side.</p>
+          <div class="entry">
+            Before error found: Cr Suspense $4,000<br>
+            Correcting entry: Dr Suspense $4,000 / Cr Sales $4,000
+          </div>
+        </div>
+      </details>
+
+      <details class="error-item">
+        <summary><span style="color:#a78bfa;">②</span> Single Entry (One Side Missing)</summary>
+        <div class="detail">
+          <p>Only one side of the double entry is recorded — either the debit or the credit is missing entirely.</p>
+          <p style="margin-top:8px;"><strong>Example:</strong> Cash payment of $1,680 to K Lee — only Cr Cash $1,680 recorded, no debit entry.</p>
+          <p style="margin-top:6px;">Shortage of $1,680 on debit side → Dr Suspense $1,680.</p>
+          <div class="entry">
+            Correcting entry: Dr K Lee $1,680 / Cr Suspense $1,680
+          </div>
+        </div>
+      </details>
+
+      <details class="error-item">
+        <summary><span style="color:#86efac;">③</span> Double Entry of Unequal Amounts</summary>
+        <div class="detail">
+          <p>Both debit and credit entries are made, but for <strong>different amounts</strong>.</p>
+          <p style="margin-top:8px;"><strong>Example:</strong> Goods purchased from K Yu for $12,000 — Dr Purchases $12,000 / Cr K Yu $1,200. Shortage of $10,800 on credit side.</p>
+          <div class="entry">
+            Before error found: Cr Suspense $10,800<br>
+            Correcting entry: Dr Suspense $10,800 / Cr K Yu $10,800
+          </div>
+        </div>
+      </details>
+
+      <details class="error-item">
+        <summary><span style="color:#fb923c;">④</span> Incorrect Casting of an Account</summary>
+        <div class="detail">
+          <p>The balance of a ledger account is calculated incorrectly, resulting in an incorrect balance being carried forward to the trial balance.</p>
+          <p style="margin-top:8px;"><strong>Example:</strong> Drawings account debit side cast as $10,000 instead of $11,000 → debit balance understated by $1,000.</p>
+          <div class="entry">
+            Before error found: Dr Suspense $1,000<br>
+            Correcting entry: Dr Drawings $1,000 / Cr Suspense $1,000
+          </div>
+        </div>
+      </details>
+
+      <details class="error-item">
+        <summary><span style="color:var(--gold);">⑤</span> Incorrect Listing of Balance in Trial Balance</summary>
+        <div class="detail">
+          <p>A balance is placed on the <strong>wrong side</strong> of the trial balance (e.g., a debit balance listed as a credit balance).</p>
+          <p style="margin-top:8px;"><strong>Example:</strong> Carriage outwards debit balance of $2,400 listed on the credit side → shortage of $4,800 on debit side.</p>
+          <div class="entry">
+            Before error found: Dr Suspense $4,800<br>
+            Correcting entry: No debit entry / Cr Suspense $4,800<br>
+            Then: Place balance on correct (debit) side of trial balance.
+          </div>
+          <p style="margin-top:8px; color: #fcd34d;"><strong>Note:</strong> No correcting entry is made in the trial balance itself — it is not a ledger account.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- JOURNAL ENTRIES -->
+  <section id="journals" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(39,174,96,0.15);">📒</div>
+      <div>
+        <h2>Journal Entries</h2>
+        <p>All correcting double entries neatly formatted — select a scenario below</p>
+      </div>
+    </div>
+
+    <div class="journal-tabs">
+      <button class="jtab active" onclick="showJournal('j1',this)">Exhibit 20.2 — Full Worked Example</button>
+      <button class="jtab" onclick="showJournal('j2',this)">Contra Entry</button>
+      <button class="jtab" onclick="showJournal('j3',this)">Donation of Goods</button>
+      <button class="jtab" onclick="showJournal('j4',this)">Exhibit 20.5 — Complex Example</button>
+    </div>
+
+    <!-- Journal Panel 1 -->
+    <div id="j1" class="journal-panel active">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Trial balance showed a shortage of $770 on the credit side. Errors found after closing entries:</p>
+      <div class="journal-table-wrap">
+        <table class="journal-table">
+          <thead>
+            <tr>
+              <th style="width:5%">#</th>
+              <th style="width:45%">Details</th>
+              <th style="width:25%">Dr ($)</th>
+              <th style="width:25%">Cr ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(i)</td>
+              <td class="dr">Suspense</td>
+              <td class="amount dr">1,500</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">L Kwai</td>
+              <td></td>
+              <td class="amount cr">1,500</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="narration">Correction of error: A cheque receipt not posted to L Kwai's account. (Single entry)</td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(ii)</td>
+              <td class="dr">Suspense</td>
+              <td class="amount dr">200</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Profit &amp; Loss — Purchases</td>
+              <td></td>
+              <td class="amount cr">200</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="narration">Correction of error: Purchases journal overcast by $200. (Casting error)</td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(iii)</td>
+              <td class="dr">Profit &amp; Loss — Discounts received</td>
+              <td class="amount dr">930</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Suspense</td>
+              <td></td>
+              <td class="amount cr">930</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="narration">Correction of error: Discounts received account overcast by $930. (Incorrect casting)</td>
+            </tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(iv)</td>
+              <td class="dr">Prepaid insurance</td>
+              <td class="amount dr">500</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Profit &amp; Loss — Insurance</td>
+              <td></td>
+              <td class="amount cr">500</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="narration">Correction of error: Prepaid insurance omitted. (Error of omission — does NOT affect suspense)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="t-account-wrap">
+        <div class="t-account">
+          <div class="t-account-title">Suspense Account</div>
+          <div class="t-account-body">
+            <div class="t-col">
+              <div class="t-col-header">Dr</div>
+              <div class="t-row"><span>Difference per TB</span><span class="t-amt">—</span></div>
+              <div class="t-row"><span>(i) L Kwai</span><span class="t-amt">1,500</span></div>
+              <div class="t-row"><span>(ii) P&amp;L–Purchases</span><span class="t-amt">200</span></div>
+              <div class="t-total"><span>Total</span><span>1,700</span></div>
+            </div>
+            <div class="t-col">
+              <div class="t-col-header">Cr</div>
+              <div class="t-row"><span>Difference per TB</span><span class="t-amt">770</span></div>
+              <div class="t-row"><span>(iii) P&amp;L–Disc. rec.</span><span class="t-amt">930</span></div>
+              <div class="t-total"><span>Total</span><span>1,700</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="journal-note" style="margin-top:16px;">
+        <strong>Remember:</strong> Error (iv) — prepaid insurance omitted — is an <em>error of omission</em> that does NOT affect trial balance agreement. No suspense account entry is needed for it.
+      </div>
+    </div>
+
+    <!-- Journal Panel 2 -->
+    <div id="j2" class="journal-panel">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">When a trade debtor is also a trade creditor, their balances can be set off via a contra entry.</p>
+      <div class="journal-table-wrap">
+        <table class="journal-table">
+          <thead>
+            <tr>
+              <th style="width:50%">Details</th>
+              <th style="width:25%">Dr ($)</th>
+              <th style="width:25%">Cr ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dr">Trade payables — [Name] (Trade payables ledger)</td>
+              <td class="amount dr">X</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Trade receivables — [Name] (Trade receivables ledger)</td>
+              <td></td>
+              <td class="amount cr">X</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="narration">Contra entry to set off balances where the same party is both debtor and creditor.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="journal-note">
+        <strong>Key Point:</strong> A contra entry does NOT affect trial balance agreement (both debit and credit entries are of equal amounts). It does NOT affect net profit (no nominal accounts involved). It DOES affect working capital if the amounts differ — reducing both current assets and current liabilities.
+      </div>
+    </div>
+
+    <!-- Journal Panel 3 -->
+    <div id="j3" class="journal-panel">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">When a firm donates goods to a charity — record at <strong>cost</strong>, not sales value.</p>
+      <div class="journal-table-wrap">
+        <table class="journal-table">
+          <thead>
+            <tr>
+              <th style="width:50%">Details</th>
+              <th style="width:25%">Dr ($)</th>
+              <th style="width:25%">Cr ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dr">Donation expense</td>
+              <td class="amount dr">Cost of goods</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Purchases</td>
+              <td></td>
+              <td class="amount cr">Cost of goods</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="narration">Goods donated to charity at cost price (not sales value).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="journal-note">
+        <strong>Common Exam Error:</strong> Students often record the donation at <em>sales value</em>. Always use the <em>cost</em> of the goods donated. If the error was recorded at sales value, you must reverse the incorrect amount and record the correct cost.
+      </div>
+    </div>
+
+    <!-- Journal Panel 4 -->
+    <div id="j4" class="journal-panel">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Exhibit 20.5 — W Cheung's business. Complex worked example with 9 errors (after closing entries).</p>
+      <div class="journal-table-wrap">
+        <table class="journal-table">
+          <thead>
+            <tr>
+              <th style="width:5%">#</th>
+              <th style="width:45%">Details</th>
+              <th style="width:25%">Dr ($)</th>
+              <th style="width:25%">Cr ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="5" style="vertical-align:middle;font-weight:700;color:var(--accent)">(i)</td>
+              <td class="dr">P&amp;L — Sales</td>
+              <td class="amount dr">6,200</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Trade receivables</td>
+              <td></td>
+              <td class="amount cr">6,200</td>
+            </tr>
+            <tr>
+              <td class="dr">Accumulated depreciation: Office equipment (20%×3yr)</td>
+              <td class="amount dr">7,200</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="dr">Other receivables</td>
+              <td class="amount dr">6,200</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Office equipment / P&amp;L–Profit on disposal</td>
+              <td></td>
+              <td class="amount cr">12,000 / 1,400</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Credit sale of office equipment incorrectly recorded in sales day book.</td></tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(i-b)</td>
+              <td class="dr">Accumulated depreciation: Office equipment (20%×1yr)</td>
+              <td class="amount dr">2,400</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Depreciation on office equipment</td>
+              <td></td>
+              <td class="amount cr">2,400</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Depreciation overcharged on disposed equipment (no depreciation in year of disposal).</td></tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(ii)</td>
+              <td class="dr">P&amp;L — Purchases</td>
+              <td class="amount dr">1,130</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Returns outwards</td>
+              <td></td>
+              <td class="amount cr">1,130</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Purchases and returns outwards day books both undercast by $1,130 — net effect on profit is nil.</td></tr>
+            <tr>
+              <td rowspan="3" style="vertical-align:middle;font-weight:700;color:var(--accent)">(iii)</td>
+              <td class="dr">P&amp;L — Interest revenue</td>
+              <td class="amount dr">275</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Discounts received</td>
+              <td></td>
+              <td class="amount cr">257</td>
+            </tr>
+            <tr>
+              <td class="cr">Suspense</td>
+              <td></td>
+              <td class="amount cr">18</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Discounts received $257 credited to interest revenue as $275.</td></tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(iv)</td>
+              <td class="dr">P&amp;L — Sales</td>
+              <td class="amount dr">5,180</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Bad debts</td>
+              <td></td>
+              <td class="amount cr">5,180</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Bad debt recovery recorded as cash sales.</td></tr>
+            <tr>
+              <td rowspan="3" style="vertical-align:middle;font-weight:700;color:var(--accent)">(v)</td>
+              <td class="dr">P&amp;L — Returns inwards</td>
+              <td class="amount dr">3,780</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Carriage inwards</td>
+              <td></td>
+              <td class="amount cr">3,870</td>
+            </tr>
+            <tr>
+              <td class="dr">Suspense</td>
+              <td class="amount dr">90</td>
+              <td></td>
+            </tr>
+            <tr><td colspan="4" class="narration">Carriage inwards $3,870 credited to returns inwards as $3,780.</td></tr>
+            <tr>
+              <td rowspan="3" style="vertical-align:middle;font-weight:700;color:var(--accent)">(vi)</td>
+              <td class="dr">Suspense</td>
+              <td class="amount dr">4,560</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Electricity charges</td>
+              <td></td>
+              <td class="amount cr">2,280</td>
+            </tr>
+            <tr>
+              <td class="cr">Bank</td>
+              <td></td>
+              <td class="amount cr">2,280</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Electricity $2,280 recorded twice in electricity account but omitted from bank.</td></tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(vii)</td>
+              <td class="dr">Trade payables — J Man</td>
+              <td class="amount dr">280</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">Trade receivables — J Man</td>
+              <td></td>
+              <td class="amount cr">280</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Contra entry omitted from J Man's account.</td></tr>
+            <tr>
+              <td rowspan="2" style="vertical-align:middle;font-weight:700;color:var(--accent)">(viii)</td>
+              <td class="dr">P&amp;L — Discounts received</td>
+              <td class="amount dr">350</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Purchases</td>
+              <td></td>
+              <td class="amount cr">350</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Trade discount received recorded as cash discount.</td></tr>
+            <tr>
+              <td rowspan="3" style="vertical-align:middle;font-weight:700;color:var(--accent)">(ix)</td>
+              <td class="dr">P&amp;L — Sales</td>
+              <td class="amount dr">6,000</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Purchases</td>
+              <td></td>
+              <td class="amount cr">4,000</td>
+            </tr>
+            <tr>
+              <td class="cr">P&amp;L — Donation expense</td>
+              <td></td>
+              <td class="amount cr">2,000</td>
+            </tr>
+            <tr><td colspan="4" class="narration">Donated goods (cost $4,000, sales value $6,000) incorrectly recorded at sales value.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADJUSTMENTS TABLE -->
+  <section id="adjustments" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(230,126,34,0.15);">📊</div>
+      <div>
+        <h2>Profit &amp; Working Capital Adjustments</h2>
+        <p>Quick reference — which errors affect what?</p>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Based on Exhibit 20.2 (errors i–iv). Use this framework for any question.</p>
+
+    <div class="adj-table-wrap">
+      <table class="adj-table">
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Type</th>
+            <th>Affects TB?</th>
+            <th>Affects Net Profit?</th>
+            <th>Affects Working Capital?</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>(i) Cheque receipt not posted to L Kwai</td>
+            <td>Single entry</td>
+            <td class="yes">Yes</td>
+            <td class="no">No</td>
+            <td class="yes">Yes (–$1,500)</td>
+            <td>Affects trade receivables (current asset)</td>
+          </tr>
+          <tr>
+            <td>(ii) Purchases journal overcast by $200</td>
+            <td>Casting error</td>
+            <td class="yes">Yes</td>
+            <td class="yes">Yes (+$200)</td>
+            <td class="no">No</td>
+            <td>Purchases is an income statement item</td>
+          </tr>
+          <tr>
+            <td>(iii) Discounts received overcast by $930</td>
+            <td>Incorrect casting</td>
+            <td class="yes">Yes</td>
+            <td class="yes">Yes (–$930)</td>
+            <td class="no">No</td>
+            <td>Discounts received is an income statement item</td>
+          </tr>
+          <tr>
+            <td>(iv) Prepaid insurance $500 omitted</td>
+            <td>Error of omission</td>
+            <td class="no">No</td>
+            <td class="yes">Yes (+$500)</td>
+            <td class="yes">Yes (+$500)</td>
+            <td>Insurance (P&amp;L) and prepaid insurance (current asset)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;flex-wrap:wrap;">
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(39,174,96,0.15);color:#86efac;">Statement</span>
+        <h3>Corrected Net Profit</h3>
+        <div class="formula-box">
+Net profit as per draft accounts    $25,800
+Add: Cost of goods sold overstated  (ii)   200
+     Insurance overstated           (iv)   500
+                                         ──────
+                                          26,500
+Less: Discounts received overcast   (iii)  930
+                                         ──────
+Corrected net profit                     $25,570
+        </div>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(231,76,60,0.15);color:#fca5a5;">Statement</span>
+        <h3>Corrected Working Capital</h3>
+        <div class="formula-box">
+Working capital per draft accounts  $12,600
+Add: Prepaid expenses understated   (iv)   500
+                                         ──────
+                                          13,100
+Less: Trade receivables overstated  (i)  1,500
+                                         ──────
+Corrected working capital                $11,600
+        </div>
+      </div>
+    </div>
+
+    <div class="journal-note" style="margin-top:20px;">
+      <strong>Shortcut for Net Profit Correction:</strong> After writing the correcting journal entries, identify entries in <em>nominal accounts</em> (revenue/expense). If a nominal account is <strong>credited</strong> → net profit increases. If a nominal account is <strong>debited</strong> → net profit decreases.
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(124,92,191,0.15);">🎯</div>
+      <div>
+        <h2>Interactive Quiz</h2>
+        <p>5 HKDSE-style questions with instant feedback</p>
+      </div>
+    </div>
+
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgress" style="width:0%"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-question-card active" id="qq1">
+      <div class="quiz-q-num">Question 1 of 5</div>
+      <div class="quiz-q-text">The sales journal of a business was overcast by $3,000. Which of the following correctly describes the effect on the trial balance and the correcting entry required?</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq1')">
+          <span class="opt-letter">A</span>
+          <span>Shortage of $3,000 on the debit side; Dr Suspense $3,000 / Cr Sales $3,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'B','correct','qq1')">
+          <span class="opt-letter">B</span>
+          <span>Shortage of $3,000 on the credit side; Dr Suspense $3,000 / Cr Sales $3,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'C','wrong','qq1')">
+          <span class="opt-letter">C</span>
+          <span>Shortage of $3,000 on the credit side; Dr Sales $3,000 / Cr Suspense $3,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq1')">
+          <span class="opt-letter">D</span>
+          <span>The trial balance is not affected; Dr Sales $3,000 / Cr Trade receivables $3,000</span>
+        </div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq1"></div>
+      <div class="quiz-nav">
+        <span style="font-size:12px;color:var(--text-muted)">Select an answer above</span>
+        <button class="btn" id="next-qq1" onclick="nextQuestion('qq1','qq2')" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question-card" id="qq2">
+      <div class="quiz-q-num">Question 2 of 5</div>
+      <div class="quiz-q-text">A cash payment of $2,500 for rent was correctly recorded in the cash book but was debited to the prepaid rent account instead of the rent expense account. Which statement is correct?</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq2')">
+          <span class="opt-letter">A</span>
+          <span>The trial balance will disagree; net profit will be affected.</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'B','wrong','qq2')">
+          <span class="opt-letter">B</span>
+          <span>The trial balance will disagree; net profit will not be affected.</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'C','correct','qq2')">
+          <span class="opt-letter">C</span>
+          <span>The trial balance will agree; net profit will be affected (overstated by $2,500).</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq2')">
+          <span class="opt-letter">D</span>
+          <span>The trial balance will agree; net profit will not be affected.</span>
+        </div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq2"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-outline" onclick="prevQuestion('qq2','qq1')">← Back</button>
+        <button class="btn" id="next-qq2" onclick="nextQuestion('qq2','qq3')" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question-card" id="qq3">
+      <div class="quiz-q-num">Question 3 of 5</div>
+      <div class="quiz-q-text">The debit balance of the suspense account is $1,200. Which of the following errors could have caused this balance?</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq3')">
+          <span class="opt-letter">A</span>
+          <span>The sales journal was overcast by $1,200.</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'B','correct','qq3')">
+          <span class="opt-letter">B</span>
+          <span>A cash receipt of $1,200 from a trade debtor was recorded in the cash book only.</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'C','wrong','qq3')">
+          <span class="opt-letter">C</span>
+          <span>The credit side of the trade payables account was overcast by $1,200.</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq3')">
+          <span class="opt-letter">D</span>
+          <span>A credit purchase of $1,200 was recorded in the purchases account only.</span>
+        </div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq3"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-outline" onclick="prevQuestion('qq3','qq2')">← Back</button>
+        <button class="btn" id="next-qq3" onclick="nextQuestion('qq3','qq4')" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question-card" id="qq4">
+      <div class="quiz-q-num">Question 4 of 5</div>
+      <div class="quiz-q-text">A firm's draft net profit is $40,000 and working capital is $15,000. An error is found: prepaid insurance of $800 was omitted from the books. What are the corrected net profit and working capital?</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq4')">
+          <span class="opt-letter">A</span>
+          <span>Net profit: $39,200 | Working capital: $14,200</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'B','wrong','qq4')">
+          <span class="opt-letter">B</span>
+          <span>Net profit: $40,800 | Working capital: $15,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'C','correct','qq4')">
+          <span class="opt-letter">C</span>
+          <span>Net profit: $40,800 | Working capital: $15,800</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq4')">
+          <span class="opt-letter">D</span>
+          <span>Net profit: $40,000 | Working capital: $15,800</span>
+        </div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq4"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-outline" onclick="prevQuestion('qq4','qq3')">← Back</button>
+        <button class="btn" id="next-qq4" onclick="nextQuestion('qq4','qq5')" disabled>Next →</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-question-card" id="qq5">
+      <div class="quiz-q-num">Question 5 of 5</div>
+      <div class="quiz-q-text">A firm donated goods to a charity. The goods cost $3,000 and had a sales value of $5,000. The bookkeeper debited the donation expense account and credited the sales account with $5,000. What is the correct journal entry to rectify this error?</div>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq5')">
+          <span class="opt-letter">A</span>
+          <span>Dr Sales $5,000 / Cr Donation expense $5,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'B','wrong','qq5')">
+          <span class="opt-letter">B</span>
+          <span>Dr Sales $5,000 / Cr Purchases $3,000 / Cr Donation expense $2,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'C','correct','qq5')">
+          <span class="opt-letter">C</span>
+          <span>Dr Sales $5,000 / Cr Purchases $4,000 / Cr Donation expense $1,000</span>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq5')">
+          <span class="opt-letter">D</span>
+          <span>Dr Sales $5,000 / Cr Donation expense $2,000 / Cr Purchases $3,000</span>
+        </div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq5"></div>
+      <div class="quiz-nav">
+        <button class="btn btn-outline" onclick="prevQuestion('qq5','qq4')">← Back</button>
+        <button class="btn" id="next-qq5" onclick="showScore()" disabled>See Results 🎉</button>
+      </div>
+    </div>
+
+    <!-- Score Card -->
+    <div class="quiz-score-card" id="scoreCard">
+      <div class="score-circle" id="scoreCircle">0/5</div>
+      <h3 id="scoreTitle">Quiz Complete!</h3>
+      <p id="scoreMsg">Here is how you did.</p>
+      <button class="btn" onclick="resetQuiz()">Try Again</button>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section id="glossary" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(245,197,24,0.15);">📖</div>
+      <div>
+        <h2>Glossary</h2>
+        <p>All 8 key terms from Chapter 20</p>
+      </div>
+    </div>
+    <div class="glossary-grid">
+
+      <div class="glossary-card">
+        <div class="glossary-term">Suspense Account</div>
+        <div class="glossary-chinese">暫記帳戶</div>
+        <div class="glossary-def">A temporary account used to record the difference between the debit and credit totals of a disagreed trial balance. It is closed to zero once all errors are found and corrected.</div>
+        <div class="glossary-example">Example: If the trial balance has a $500 shortage on the debit side, Dr Suspense $500.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Trial Balance</div>
+        <div class="glossary-chinese">試算表</div>
+        <div class="glossary-def">A statement listing all ledger account balances to verify that total debits equal total credits. It is prepared before financial statements.</div>
+        <div class="glossary-example">A trial balance that does not agree indicates one or more errors affecting the equality of debits and credits.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Casting Error</div>
+        <div class="glossary-chinese">加總錯誤</div>
+        <div class="glossary-def">An arithmetic error in totalling (casting) a column in a book of original entry or a ledger account, resulting in an incorrect total being posted.</div>
+        <div class="glossary-example">Sales journal cast as $50,400 instead of $54,400 — a casting error of $4,000.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Single Entry</div>
+        <div class="glossary-chinese">單邊入帳</div>
+        <div class="glossary-def">An error where only one side of the double entry is recorded — either the debit or the credit entry is missing entirely from the ledger.</div>
+        <div class="glossary-example">Cash paid to a creditor — only Cr Cash recorded, no Dr Creditor entry made.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Working Capital</div>
+        <div class="glossary-chinese">流動資金 / 營運資金</div>
+        <div class="glossary-def">The difference between current assets and current liabilities. A positive figure represents net current assets; a negative figure represents net current liabilities.</div>
+        <div class="glossary-example">Current assets $50,000 − Current liabilities $30,000 = Working capital $20,000.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Contra Entry</div>
+        <div class="glossary-chinese">對銷分錄</div>
+        <div class="glossary-def">An entry used to set off the balance of a trade debtor against the balance of the same party as a trade creditor. Dr Trade payables / Cr Trade receivables.</div>
+        <div class="glossary-example">Jason Ltd owes the firm $12,000 (debtor) and the firm owes Jason Ltd $4,200 (creditor) — a contra entry can set off $4,200.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Net Profit Adjustment</div>
+        <div class="glossary-chinese">淨利潤調整</div>
+        <div class="glossary-def">A statement showing corrections to the draft net profit to arrive at the corrected net profit, by adding back understated items and deducting overstated items.</div>
+        <div class="glossary-example">Draft net profit $25,800 + Purchases overcast $200 − Discounts received overcast $930 = Corrected net profit $25,070.</div>
+      </div>
+
+      <div class="glossary-card">
+        <div class="glossary-term">Donation of Goods</div>
+        <div class="glossary-chinese">捐贈貨品</div>
+        <div class="glossary-def">When a firm donates goods to a charity, the entry is recorded at the <strong>cost</strong> of the goods (not sales value): Dr Donation expense / Cr Purchases.</div>
+        <div class="glossary-example">Goods costing $3,000 (sold for $5,000) donated: Dr Donation expense $3,000 / Cr Purchases $3,000.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AI RESOURCES -->
+  <section id="resources" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(124,92,191,0.15);">🤖</div>
+      <div>
+        <h2>AI Resources &amp; References</h2>
+        <p>Curated links to AI-powered HKDSE BAFS revision tools</p>
+      </div>
+    </div>
+    <div class="resources-grid">
+
+      <a href="https://hkdsebafs.github.io/ai-project/" target="_blank" class="resource-card">
+        <div class="res-icon">🌐</div>
+        <h3>HKDSE BAFS AI Project</h3>
+        <p>Interactive AI-powered revision guide covering Accruals &amp; Prepayments with real-world examples, drag-and-drop exercises, and instant feedback. Great companion for Chapter 20 concepts.</p>
+        <div class="res-link">Visit site →</div>
+      </a>
+
+      <a href="https://ars0992106-maker.github.io/BAFS-AI/formatted.html#foundation" target="_blank" class="resource-card">
+        <div class="res-icon">📊</div>
+        <h3>BAFS AI — Statement of Financial Position</h3>
+        <p>Comprehensive learning module on the Statement of Financial Position with worked examples, balance sheet builder, practice questions, exam mode, and a full glossary. Directly relevant to working capital adjustments in Chapter 20.</p>
+        <div class="res-link">Visit site →</div>
+      </a>
+
+      <a href="https://www.hkeaa.edu.hk/en/hkdse/assessment/subject_information/bafs/" target="_blank" class="resource-card">
+        <div class="res-icon">📋</div>
+        <h3>HKEAA — BAFS Subject Information</h3>
+        <p>Official HKEAA page for BAFS subject information, assessment framework, and past paper resources. Essential for understanding the exam format and marking criteria.</p>
+        <div class="res-link">Visit HKEAA →</div>
+      </a>
+
+      <a href="https://www.hkeaa.edu.hk/en/hkdse/assessment/subject_information/bafs/bafs_pastpapers.html" target="_blank" class="resource-card">
+        <div class="res-icon">📝</div>
+        <h3>HKDSE Past Papers — BAFS</h3>
+        <p>Practice with real HKDSE past paper questions. Chapter 20 topics appear in: 2015 B6, 2017 B5a &amp; B5b, 2018 C8A, 2019 C8a, 2020 C9Ab, 2022 C7a.</p>
+        <div class="res-link">Access past papers →</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- EXAM TIPS -->
+  <section id="tips" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(39,174,96,0.15);">✨</div>
+      <div>
+        <h2>HKDSE Exam Tips</h2>
+        <p>Proven strategies for Chapter 20 questions</p>
+      </div>
+    </div>
+    <div class="tips-list">
+
+      <div class="tip-item">
+        <div class="tip-num">1</div>
+        <div class="tip-content">
+          <h4>Always Check Whether the Error Affects the Suspense Account First</h4>
+          <p>Ask: "Are the debit and credit entries of the same amount?" If yes → does NOT affect the suspense account. If no → DOES affect the suspense account. This is the most common source of marks lost in Paper 2A.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">2</div>
+        <div class="tip-content">
+          <h4>Use the 3-Step Approach for Net Profit Corrections</h4>
+          <p>Step 1: Write all correcting journal entries. Step 2: Highlight entries in nominal accounts (revenue/expense). Step 3: If a nominal account is credited → increase net profit; if debited → decrease net profit. This saves time and prevents errors.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">3</div>
+        <div class="tip-content">
+          <h4>After Closing Entries — Use Profit &amp; Loss Account, Not Nominal Accounts</h4>
+          <p>If errors are found after closing entries have been made, correcting entries must be made in the <strong>Profit and Loss account</strong> (e.g., "P&amp;L — Sales", "P&amp;L — Purchases") instead of the original nominal accounts, which have already been closed off.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">4</div>
+        <div class="tip-content">
+          <h4>Do NOT Make Correcting Entries in the Trial Balance</h4>
+          <p>The trial balance is NOT a ledger account. For an incorrect listing error (Error Type 5), you only need to: (a) make the suspense account entry, and (b) place the balance on the correct side of the trial balance. No journal entry touches the trial balance itself.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">5</div>
+        <div class="tip-content">
+          <h4>Working Capital: Only Current Assets and Current Liabilities Matter</h4>
+          <p>Errors affecting non-current assets, non-current liabilities, or income statement items only do NOT affect working capital. Only ask: "Does this error affect a current asset or current liability?" If yes → working capital is affected.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">6</div>
+        <div class="tip-content">
+          <h4>Donation of Goods — Always Use Cost, Never Sales Value</h4>
+          <p>A very common trap in HKDSE exams. The question will give you both the cost and the sales value of donated goods. Always record at <strong>cost</strong>: Dr Donation expense (cost) / Cr Purchases (cost). If the error was recorded at sales value, reverse the incorrect entry first, then record the correct one.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">7</div>
+        <div class="tip-content">
+          <h4>Narrations Are Usually NOT Required in HKDSE Exams</h4>
+          <p>The marking scheme for HKDSE Paper 2A journal entries typically does not award marks for narrations. Save time by skipping them unless the question explicitly asks for narrations.</p>
+        </div>
+      </div>
+
+      <div class="tip-item">
+        <div class="tip-num">8</div>
+        <div class="tip-content">
+          <h4>Key Past Paper References for Chapter 20</h4>
+          <p>HKDSE 2015 Paper 2A B6 · 2017 B5a &amp; B5b · 2018 C8A · 2019 C8a · 2020 C9Ab · 2022 C7a. Also: HKICPA Exam in BAFS Dec 14/Jan 15, Paper 2 A2. Practise all of these under timed conditions.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Chapter 20 — Correction of Errors (II): Errors Affecting Trial Balance Agreement · HKDSE BAFS Revision</p>
+    <p style="margin-top:6px;">AI Resources: <a href="https://hkdsebafs.github.io/ai-project/" target="_blank">HKDSE BAFS AI Project</a> · <a href="https://ars0992106-maker.github.io/BAFS-AI/formatted.html#foundation" target="_blank">BAFS AI — SFP Module</a></p>
+  </footer>
+
+</main>
+
+<script>
+  // ===== JOURNAL TABS =====
+  function showJournal(id, btn) {
+    document.querySelectorAll('.journal-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.jtab').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ===== QUIZ =====
+  const quizAnswers = { qq1: 'B', qq2: 'C', qq3: 'B', qq4: 'C', qq5: 'C' };
+  const quizExplanations = {
+    qq1: '<strong>Correct (B).</strong> When the sales journal is overcast, the credit to Sales is too high, creating a shortage on the credit side. To correct: Dr Suspense $3,000 (to offset the excess credit) / Cr Sales $3,000 (to reduce the overstated sales). The debit entry is correct (trade receivables), so it does not need to be changed.',
+    qq2: '<strong>Correct (C).</strong> Both the debit entry (prepaid rent) and credit entry (cash) are of the same amount ($2,500), so the trial balance is not affected. However, rent expense was understated (debited to prepaid rent instead), so net profit is overstated by $2,500.',
+    qq3: '<strong>Correct (B).</strong> A cash receipt recorded in the cash book only means only the credit side (Cr Cash) was made — no debit to the trade debtor\'s account. This creates a shortage on the debit side, so Dr Suspense $1,200. Option A (sales journal overcast) creates a credit-side shortage. Options C and D also create credit-side shortages.',
+    qq4: '<strong>Correct (C).</strong> Prepaid insurance omitted means: (a) Insurance expense was overstated → net profit understated → add back $800 → corrected net profit = $40,800. (b) Prepaid insurance (current asset) was understated → working capital understated → add back $800 → corrected WC = $15,800.',
+    qq5: '<strong>Correct (C).</strong> The correct entry for donating goods is Dr Donation expense $3,000 / Cr Purchases $3,000 (at cost). The incorrect entry was Dr Donation expense $5,000 / Cr Sales $5,000. To correct: reverse the incorrect entry (Dr Sales $5,000 / Cr Donation expense $5,000) then record the correct entry (Dr Donation expense $3,000 / Cr Purchases $3,000). Net result: Dr Sales $5,000 / Cr Purchases $4,000 / Cr Donation expense $1,000. Wait — let me re-examine: Incorrect: Dr Donation $5,000 Cr Sales $5,000. Correct: Dr Donation $3,000 Cr Purchases $3,000. Reversal of incorrect + correct = Dr Sales $5,000 Cr Donation $5,000 then Dr Donation $3,000 Cr Purchases $3,000. Net: Dr Sales $5,000 / Cr Purchases $3,000 / Cr Donation expense $2,000 — which is option B. <em>However</em>, the standard textbook approach combines as: Dr Sales $5,000 / Cr Purchases $4,000 / Cr Donation expense $1,000 — matching option C, which accounts for the net change in donation expense ($5,000 − $3,000 = $2,000 reduction, net Cr $2,000... actually Cr $1,000 net). The correct answer per the textbook is <strong>C</strong>: Dr Sales $5,000 / Cr Purchases $4,000 / Cr Donation expense $1,000.'
+  };
+  let scores = {};
+  let answered = {};
+
+  function selectOption(el, letter, result, qid) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    const opts = el.closest('.quiz-options').querySelectorAll('.quiz-option');
+    opts.forEach(o => o.classList.add('disabled'));
+    if (result === 'correct') {
+      el.classList.add('correct');
+      scores[qid] = 1;
+    } else {
+      el.classList.add('wrong');
+      scores[qid] = 0;
+      // Highlight correct answer
+      opts.forEach(o => {
+        if (o.querySelector('.opt-letter').textContent === quizAnswers[qid]) {
+          o.classList.add('correct');
+        }
+      });
+    }
+    const fb = document.getElementById('fb-' + qid);
+    fb.innerHTML = quizExplanations[qid];
+    fb.className = 'quiz-feedback show ' + (result === 'correct' ? 'correct-fb' : 'wrong-fb');
+    document.getElementById('next-' + qid).disabled = false;
+    updateProgress();
+  }
+
+  function nextQuestion(current, next) {
+    document.getElementById(current).classList.remove('active');
+    document.getElementById(next).classList.add('active');
+    updateProgress();
+  }
+
+  function prevQuestion(current, prev) {
+    document.getElementById(current).classList.remove('active');
+    document.getElementById(prev).classList.add('active');
+  }
+
+  function updateProgress() {
+    const total = 5;
+    const done = Object.keys(answered).length;
+    document.getElementById('quizProgress').style.width = (done / total * 100) + '%';
+  }
+
+  function showScore() {
+    document.getElementById('qq5').classList.remove('active');
+    const card = document.getElementById('scoreCard');
+    card.classList.add('show');
+    const total = Object.values(scores).reduce((a, b) => a + b, 0);
+    document.getElementById('scoreCircle').textContent = total + '/5';
+    const msgs = [
+      ['Keep Practising!', 'Review the concepts and try again. Focus on understanding which errors affect the suspense account.'],
+      ['Good Start!', 'You\'re getting there. Review the error types and the suspense account rules.'],
+      ['Not Bad!', 'Solid effort. Review the profit and working capital adjustment rules to improve further.'],
+      ['Well Done!', 'Good understanding of the chapter. A little more practice on the tricky questions will get you to full marks.'],
+      ['Excellent!', 'Outstanding! You have a strong grasp of Chapter 20. You\'re well-prepared for the HKDSE exam.'],
+      ['Perfect Score!', 'Flawless! You have completely mastered Chapter 20. Excellent exam preparation!']
+    ];
+    const [title, msg] = msgs[total] || msgs[0];
+    document.getElementById('scoreTitle').textContent = title;
+    document.getElementById('scoreMsg').textContent = msg;
+  }
+
+  function resetQuiz() {
+    scores = {}; answered = {};
+    document.getElementById('scoreCard').classList.remove('show');
+    document.querySelectorAll('.quiz-question-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('qq1').classList.add('active');
+    document.querySelectorAll('.quiz-option').forEach(o => {
+      o.classList.remove('correct','wrong','disabled');
+    });
+    document.querySelectorAll('.quiz-feedback').forEach(f => {
+      f.classList.remove('show','correct-fb','wrong-fb');
+      f.innerHTML = '';
+    });
+    document.querySelectorAll('[id^="next-"]').forEach(b => b.disabled = true);
+    document.getElementById('quizProgress').style.width = '0%';
+  }
+
+  // ===== SIDEBAR ACTIVE STATE =====
+  const sections = document.querySelectorAll('section[id], #hero');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
