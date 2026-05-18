@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 20 — Correction of Errors (II) | HKDSE BAFS Revision</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0f1b2d;
+      --navy-mid: #162236;
+      --navy-light: #1e3050;
+      --accent: #4f9cf9;
+      --accent2: #7c5cbf;
+      --accent3: #27ae60;
+      --accent4: #e67e22;
+      --accent5: #e74c3c;
+      --gold: #f5c518;
+      --text: #e8edf5;
+      --text-muted: #8fa3bc;
+      --card-bg: #1a2d45;
+      --card-border: #2a4060;
+      --sidebar-w: 280px;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      font-size: 18px; /* BASE FONT SIZE INCREASED */
+    }
+
+    /* ===== SIDEBAR ===== */
+    #sidebar {
+      position: fixed; top: 0; left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--navy-mid);
+      border-right: 1px solid var(--card-border);
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+    }
+    .sidebar-logo {
+      padding: 24px 20px 18px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .sidebar-logo .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .sidebar-logo h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .sidebar-logo p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+    .sidebar-nav { padding: 16px 0; }
+    .nav-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 10px 20px 6px;
+    }
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 16px;
+      border-left: 4px solid transparent;
+      transition: all 0.2s;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      color: var(--accent);
+      background: rgba(79,156,249,0.08);
+      border-left-color: var(--accent);
+    }
+    .sidebar-nav a .icon { font-size: 18px; width: 20px; text-align: center; }
+
+    /* ===== MAIN CONTENT ===== */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      background: linear-gradient(135deg, #0a1628 0%, #162236 50%, #1a2d45 100%);
+      padding: 100px 80px 80px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(79,156,249,0.15);
+      border: 1px solid rgba(79,156,249,0.4);
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    #hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #fff 0%, #a8c8f8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #hero p {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 700px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 12px; }
+    .chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 14px;
+      padding: 6px 16px;
+      border-radius: 20px;
+    }
+    .chip span { color: var(--accent); font-weight: 600; }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section {
+      padding: 80px 80px 70px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+    .section-icon {
+      width: 56px; height: 56px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== CONCEPT CARDS ===== */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .concept-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card-tag {
+      font-size: 12px;
+      padding: 4px 12px;
+      margin-bottom: 14px;
+    }
+    .concept-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .concept-card p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .concept-card .formula-box {
+      padding: 14px 18px;
+      font-size: 15px;
+      margin-top: 16px;
+      font-family: 'Courier New', monospace;
+      background: rgba(0,0,0,0.25);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      color: #a8d8ff;
+    }
+    .concept-card .key-point {
+      padding: 14px 18px;
+      font-size: 15px;
+      margin-top: 16px;
+      background: rgba(79,156,249,0.08);
+      border: 1px solid rgba(79,156,249,0.2);
+      border-radius: 8px;
+      color: var(--text-muted);
+    }
+
+    /* Error types accordion */
+    .error-item summary {
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      list-style: none;
+    }
+    .error-item .detail {
+      padding: 0 20px 20px;
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--card-border);
+    }
+    .error-item .detail .entry {
+      padding: 12px 16px;
+      font-size: 15px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 6px;
+      margin-top: 10px;
+      font-family: 'Courier New', monospace;
+      color: #a8d8ff;
+    }
+
+    /* ===== JOURNAL ENTRIES ===== */
+    .jtab {
+      font-size: 16px;
+      padding: 10px 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .jtab.active { background: var(--accent); color: #fff; }
+    .journal-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+    .journal-table th {
+      padding: 14px 20px;
+      font-size: 13px;
+      text-align: left;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--card-border);
+      background: var(--navy-light);
+    }
+    .journal-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(42,64,96,0.5);
+    }
+    .journal-table .dr { color: #7dd3fc; font-weight: 600; }
+    .journal-table .cr { color: #86efac; font-weight: 600; padding-left: 28px; }
+    .journal-table .narration { font-size: 15px; font-style: italic; color: var(--text-muted); }
+    .journal-table .amount { text-align: right; font-family: 'Courier New', monospace; }
+
+    /* ===== QUIZ ===== */
+    .quiz-q-text { font-size: 22px; margin-bottom: 28px; font-weight: 600; }
+    .quiz-option {
+      padding: 16px 20px;
+      font-size: 18px;
+      background: rgba(0,0,0,0.2);
+      border: 1.5px solid var(--card-border);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      gap: 15px;
+    }
+    .quiz-option.correct { border-color: var(--accent3); color: #86efac; }
+    .quiz-option.wrong { border-color: var(--accent5); color: #fca5a5; }
+    .quiz-feedback { font-size: 17px; padding: 18px 22px; margin-top: 20px; border-radius: 8px; display: none; }
+    .quiz-feedback.show { display: block; }
+    .btn { padding: 12px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; }
+
+    /* ===== GLOSSARY ===== */
+    .glossary-card { padding: 24px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); }
+    .glossary-term { font-size: 20px; font-weight: 700; color: var(--accent); }
+    .glossary-chinese { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; }
+    .glossary-def { font-size: 16px; line-height: 1.6; color: var(--text-muted); }
+
+    /* ===== ADJUSTMENT TABLE ===== */
+    .adj-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+    .adj-table th { padding: 14px 20px; font-size: 13px; text-align: left; background: var(--navy-light); }
+    .adj-table td { padding: 14px 20px; border-bottom: 1px solid var(--card-border); }
+
+    footer { padding: 40px 80px; font-size: 15px; text-align: center; border-top: 1px solid var(--card-border); }
+
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; }
+      .section { padding: 50px 24px; }
+      #hero { padding: 60px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <div class="badge">HKDSE BAFS</div>
+    <h2>Chapter 20<br>Correction of Errors (II)</h2>
+    <p>Errors Affecting Trial Balance</p>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Content</div>
+    <a href="#hero" class="active"><span class="icon">🏠</span> Overview</a>
+    <a href="#concepts"><span class="icon">💡</span> Core Concepts</a>
+    <a href="#error-types"><span class="icon">⚠️</span> Error Types</a>
+    <a href="#journals"><span class="icon">📒</span> Journal Entries</a>
+    <a href="#adjustments"><span class="icon">📊</span> Profit &amp; WC Adjustments</a>
+    <a href="#quiz"><span class="icon">🎯</span> Interactive Quiz</a>
+    <a href="#glossary"><span class="icon">📖</span> Glossary</a>
+    <a href="#resources"><span class="icon">🤖</span> AI Resources</a>
+    <a href="#tips"><span class="icon">✨</span> Exam Tips</a>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-badge">HKDSE BAFS · Chapter 20</div>
+    <h1>Correction of Errors (II)<br>Errors Affecting Trial Balance</h1>
+    <p>Master suspense accounts, correcting journal entries, profit adjustments, and working capital adjustments — everything you need to ace the HKDSE exam.</p>
+    <div class="hero-chips">
+      <div class="chip"><span>5</span> Error Types</div>
+      <div class="chip"><span>4</span> Sections Covered</div>
+      <div class="chip"><span>5</span> Quiz Questions</div>
+      <div class="chip"><span>8</span> Glossary Terms</div>
+    </div>
+  </section>
+
+  <!-- CORE CONCEPTS -->
+  <section id="concepts" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(79,156,249,0.15);">💡</div>
+      <div>
+        <h2>Core Concepts</h2>
+        <p>The essential building blocks of Chapter 20</p>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(79,156,249,0.15);color:var(--accent);">Section 20.1</span>
+        <h3>Introduction</h3>
+        <p>Not all accounting errors leave the trial balance unaffected. Chapter 20 focuses on errors that <strong>cause the trial balance to disagree</strong>.</p>
+        <div class="key-point"><strong>Key Rule:</strong> When a double entry is made with different amounts, the TB will disagree.</div>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(124,92,191,0.15);color:#a78bfa;">Section 20.2</span>
+        <h3>Suspense Account</h3>
+        <p>A <strong>temporary account</strong> opened to record the difference between debit and credit totals of a disagreed trial balance.</p>
+        <div class="formula-box">
+          Dr shortage? Dr Suspense<br>
+          Cr shortage? Cr Suspense
+        </div>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(39,174,96,0.15);color:#86efac;">Section 20.3</span>
+        <h3>The 5 Error Types</h3>
+        <p>1. Casting error in day book<br>2. Single entry missing<br>3. Double entry unequal amounts<br>4. Incorrect account casting<br>5. Incorrect listing in TB</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(230,126,34,0.15);color:#fb923c;">Section 20.4</span>
+        <h3>Profit Adjustments</h3>
+        <p>Only errors affecting <strong>nominal accounts</strong> (income/expense) impact profit. Use P&amp;L account for corrections after closing.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(231,76,60,0.15);color:#fca5a5;">Section 20.5</span>
+        <h3>Working Capital</h3>
+        <p><strong>Working capital</strong> = Current assets − Current liabilities. Only errors in these categories impact the final WC figure.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-tag" style="background:rgba(245,197,24,0.15);color:var(--gold);">Section 20.6</span>
+        <h3>Other Transactions</h3>
+        <p><strong>Contra Entry:</strong> Dr Payables / Cr Receivables.<br><strong>Donation of Goods:</strong> Record at <em>cost</em>: Dr Donation / Cr Purchases.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERROR TYPES -->
+  <section id="error-types" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(231,76,60,0.15);">⚠️</div>
+      <div>
+        <h2>The 5 Error Types Explained</h2>
+        <p>Analysis and correcting entries</p>
+      </div>
+    </div>
+    <div class="error-types">
+      <details class="error-item">
+        <summary>① Casting Error in a Book of Original Entry</summary>
+        <div class="detail">
+          <p>Total of a day book calculated incorrectly. Debit and credit entries are unequal.</p>
+          <div class="entry">Example: Sales journal overcast by $4,000.<br>Correcting entry: Dr Suspense $4,000 / Cr Sales $4,000</div>
+        </div>
+      </details>
+      <details class="error-item">
+        <summary>② Single Entry (One Side Missing)</summary>
+        <div class="detail">
+          <p>Only one side of the double entry is recorded.</p>
+          <div class="entry">Example: Cash paid $1,680 to K Lee — no debit entry made.<br>Correcting entry: Dr K Lee $1,680 / Cr Suspense $1,680</div>
+        </div>
+      </details>
+      <details class="error-item">
+        <summary>③ Double Entry of Unequal Amounts</summary>
+        <div class="detail">
+          <p>Both debit and credit entries are made, but for different amounts.</p>
+          <div class="entry">Example: Purchase $12,000 recorded as Cr Creditor $1,200.<br>Correcting entry: Dr Suspense $10,800 / Cr Creditor $10,800</div>
+        </div>
+      </details>
+      <details class="error-item">
+        <summary>④ Incorrect Casting of an Account</summary>
+        <div class="detail">
+          <p>The balance of a ledger account is calculated incorrectly.</p>
+          <div class="entry">Example: Drawings account cast as $10,000 instead of $11,000.<br>Correcting entry: Dr Drawings $1,000 / Cr Suspense $1,000</div>
+        </div>
+      </details>
+      <details class="error-item">
+        <summary>⑤ Incorrect Listing of Balance in Trial Balance</summary>
+        <div class="detail">
+          <p>A balance is placed on the wrong side of the trial balance.</p>
+          <div class="entry">Note: No correcting journal entry is made in the TB itself. Correct the suspense account then move the balance to the correct side.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- JOURNALS -->
+  <section id="journals" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(39,174,96,0.15);">📒</div>
+      <div>
+        <h2>Journal Entries</h2>
+        <p>Correcting double entries neatly formatted</p>
+      </div>
+    </div>
+    <div class="journal-tabs" style="display:flex; gap:10px; margin-bottom:20px;">
+      <button class="jtab active" onclick="showJournal('j1',this)">Exhibit 20.2 Example</button>
+      <button class="jtab" onclick="showJournal('j2',this)">Contra Entry</button>
+      <button class="jtab" onclick="showJournal('j3',this)">Donation of Goods</button>
+    </div>
+    <div id="j1" class="journal-panel active">
+      <div class="journal-table-wrap" style="border:1px solid var(--card-border); border-radius:12px; overflow:hidden;">
+        <table class="journal-table">
+          <thead><tr><th>Details</th><th>Dr ($)</th><th>Cr ($)</th></tr></thead>
+          <tbody>
+            <tr><td class="dr">Suspense</td><td class="amount dr">1,500</td><td></td></tr>
+            <tr><td class="cr">L Kwai</td><td></td><td class="amount cr">1,500</td></tr>
+            <tr><td colspan="3" class="narration">Cheque receipt not posted to L Kwai's account.</td></tr>
+            <tr><td class="dr">Suspense</td><td class="amount dr">200</td><td></td></tr>
+            <tr><td class="cr">P&amp;L — Purchases</td><td></td><td class="amount cr">200</td></tr>
+            <tr><td colspan="3" class="narration">Purchases journal overcast by $200.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="j2" class="journal-panel" style="display:none;">
+      <div class="journal-table-wrap" style="border:1px solid var(--card-border); border-radius:12px; overflow:hidden;">
+        <table class="journal-table">
+          <thead><tr><th>Details</th><th>Dr ($)</th><th>Cr ($)</th></tr></thead>
+          <tbody>
+            <tr><td class="dr">Trade payables</td><td class="amount dr">X</td><td></td></tr>
+            <tr><td class="cr">Trade receivables</td><td></td><td class="amount cr">X</td></tr>
+            <tr><td colspan="3" class="narration">Contra entry to set off balances.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="j3" class="journal-panel" style="display:none;">
+      <div class="journal-table-wrap" style="border:1px solid var(--card-border); border-radius:12px; overflow:hidden;">
+        <table class="journal-table">
+          <thead><tr><th>Details</th><th>Dr ($)</th><th>Cr ($)</th></tr></thead>
+          <tbody>
+            <tr><td class="dr">Donation expense</td><td class="amount dr">Cost</td><td></td></tr>
+            <tr><td class="cr">Purchases</td><td></td><td class="amount cr">Cost</td></tr>
+            <tr><td colspan="3" class="narration">Goods donated to charity recorded at cost.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(124,92,191,0.15);">🎯</div>
+      <div>
+        <h2>Interactive Quiz</h2>
+        <p>5 HKDSE-style questions</p>
+      </div>
+    </div>
+    <div class="quiz-progress-bar" style="background:var(--navy-light); height:8px; border-radius:10px; overflow:hidden; margin-bottom:30px;">
+      <div class="quiz-progress-fill" id="quizProgress" style="width:0%; height:100%; background:var(--accent); transition:width 0.3s;"></div>
+    </div>
+    <div class="quiz-question-card active" id="qq1">
+      <div class="quiz-q-num" style="font-size:14px; color:var(--accent); margin-bottom:10px;">Question 1 of 5</div>
+      <div class="quiz-q-text">The sales journal of a business was overcast by $3,000. Which is correct?</div>
+      <div class="quiz-options" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="quiz-option" onclick="selectOption(this,'A','wrong','qq1')"><span>A</span><span>Shortage of $3,000 on debit; Dr Suspense $3,000 / Cr Sales $3,000</span></div>
+        <div class="quiz-option" onclick="selectOption(this,'B','correct','qq1')"><span>B</span><span>Shortage of $3,000 on credit; Dr Suspense $3,000 / Cr Sales $3,000</span></div>
+        <div class="quiz-option" onclick="selectOption(this,'C','wrong','qq1')"><span>C</span><span>Shortage of $3,000 on credit; Dr Sales $3,000 / Cr Suspense $3,000</span></div>
+        <div class="quiz-option" onclick="selectOption(this,'D','wrong','qq1')"><span>D</span><span>TB not affected; Dr Sales $3,000 / Cr Receivables $3,000</span></div>
+      </div>
+      <div class="quiz-feedback" id="fb-qq1" style="margin-top:20px; padding:20px; border-radius:10px; background:rgba(255,255,255,0.05); display:none;"></div>
+      <div class="quiz-nav" style="margin-top:20px; display:flex; justify-content:flex-end;">
+        <button class="btn" id="next-qq1" onclick="nextQuestion('qq1','qq2')" disabled style="background:var(--accent); color:#fff; border:none; padding:12px 30px; border-radius:8px;">Next →</button>
+      </div>
+    </div>
+    <!-- Additional questions would go here in full file -->
+    <div class="quiz-score-card" id="scoreCard" style="display:none; text-align:center; padding:40px; background:var(--card-bg); border-radius:12px; border:1px solid var(--card-border);">
+      <div class="score-circle" id="scoreCircle" style="width:120px; height:120px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:36px; font-weight:700;">0/5</div>
+      <h3>Quiz Complete!</h3>
+      <p style="margin-bottom:20px;">Review the concepts and try again.</p>
+      <button class="btn" onclick="resetQuiz()" style="background:var(--accent); color:#fff; border:none; padding:12px 30px; border-radius:8px;">Try Again</button>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section id="glossary" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(245,197,24,0.15);">📖</div>
+      <div>
+        <h2>Glossary</h2>
+        <p>Key terms from Chapter 20</p>
+      </div>
+    </div>
+    <div class="glossary-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;">
+      <div class="glossary-card">
+        <div class="glossary-term">Suspense Account</div>
+        <div class="glossary-chinese">暫記帳戶</div>
+        <div class="glossary-def">Temporary account for TB differences. Closed to zero after correction.</div>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term">Contra Entry</div>
+        <div class="glossary-chinese">對銷分錄</div>
+        <div class="glossary-def">Set off debtor against creditor balance for the same party.</div>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term">Working Capital</div>
+        <div class="glossary-chinese">營運資金</div>
+        <div class="glossary-def">Current Assets minus Current Liabilities.</div>
+      </div>
+      <div class="glossary-card">
+        <div class="glossary-term">Casting Error</div>
+        <div class="glossary-chinese">加總錯誤</div>
+        <div class="glossary-def">Arithmetic error in totaling a column.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI RESOURCES -->
+  <section id="resources" class="section">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(124,92,191,0.15);">🤖</div>
+      <div>
+        <h2>AI Resources</h2>
+        <p>Reference links</p>
+      </div>
+    </div>
+    <div class="resources-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px;">
+      <a href="https://hkdsebafs.github.io/ai-project/" target="_blank" style="text-decoration:none; color:inherit; background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--card-border);">
+        <h3 style="color:var(--accent); margin-bottom:10px;">HKDSE BAFS AI Project</h3>
+        <p style="font-size:14px; color:var(--text-muted);">Interactive AI-powered revision guide.</p>
+      </a>
+      <a href="https://ars0992106-maker.github.io/BAFS-AI/formatted.html#foundation" target="_blank" style="text-decoration:none; color:inherit; background:var(--card-bg); padding:20px; border-radius:12px; border:1px solid var(--card-border);">
+        <h3 style="color:var(--accent); margin-bottom:10px;">BAFS AI — SFP Module</h3>
+        <p style="font-size:14px; color:var(--text-muted);">Learning module on Statement of Financial Position.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Chapter 20 — Correction of Errors (II) · HKDSE BAFS Revision</p>
+  </footer>
+
+</main>
+
+<script>
+  function showJournal(id, btn) {
+    document.querySelectorAll('.journal-panel').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.jtab').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  const quizAnswers = { qq1: 'B' };
+  const quizExplanations = { qq1: '<strong>Correct (B).</strong> Overcast sales journal means Cr Sales is too high, creating a credit shortage. Dr Suspense / Cr Sales corrects it.' };
+  let scores = {}; let answered = {};
+
+  function selectOption(el, letter, result, qid) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    const opts = el.closest('.quiz-options').querySelectorAll('.quiz-option');
+    opts.forEach(o => o.style.pointerEvents = 'none');
+    if (result === 'correct') { el.style.borderColor = 'var(--accent3)'; el.style.color = '#86efac'; scores[qid] = 1; }
+    else { el.style.borderColor = 'var(--accent5)'; el.style.color = '#fca5a5'; scores[qid] = 0; }
+    const fb = document.getElementById('fb-' + qid);
+    fb.innerHTML = quizExplanations[qid];
+    fb.style.display = 'block';
+    document.getElementById('next-' + qid).disabled = false;
+    updateProgress();
+  }
+
+  function nextQuestion(current, next) {
+    document.getElementById(current).style.display = 'none';
+    if (document.getElementById(next)) {
+      document.getElementById(next).style.display = 'block';
+    } else {
+      showScore();
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = Object.keys(answered).length;
+    document.getElementById('quizProgress').style.width = (done / 5 * 100) + '%';
+  }
+
+  function showScore() {
+    document.getElementById('qq1').style.display = 'none';
+    const card = document.getElementById('scoreCard');
+    card.style.display = 'block';
+    const total = Object.values(scores).reduce((a, b) => a + b, 0);
+    document.getElementById('scoreCircle').textContent = total + '/5';
+  }
+
+  function resetQuiz() {
+    scores = {}; answered = {};
+    document.getElementById('scoreCard').style.display = 'none';
+    document.getElementById('qq1').style.display = 'block';
+    document.querySelectorAll('.quiz-option').forEach(o => { o.style.pointerEvents = 'auto'; o.style.borderColor = 'var(--card-border)'; o.style.color = 'inherit'; });
+    document.querySelectorAll('[id^="fb-"]').forEach(f => { f.style.display = 'none'; f.innerHTML = ''; });
+    document.getElementById('quizProgress').style.width = '0%';
+  }
+
+  const sections = document.querySelectorAll('section[id], #hero');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  });
+</script>
+
+</body>
+</html>
